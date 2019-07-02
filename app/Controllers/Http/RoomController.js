@@ -1,12 +1,12 @@
-"use strict"
+'use strict'
 
-const Room = use("App/Models/Room")
+const Room = use('App/Models/Room')
 
 class RoomController {
   async index({ response }) {
     try {
       const rooms = await Room.query()
-        .with("chat")
+        .with('chat')
         .fetch()
       return response.status(200).send({
         data: rooms
@@ -14,7 +14,7 @@ class RoomController {
     } catch (error) {
       console.log(error)
       return response.status(400).send({
-        message: "bad request"
+        message: 'bad request'
       })
     }
   }
@@ -33,11 +33,11 @@ class RoomController {
     try {
       const { id } = params
       const room = await Room.query()
-        .with("chat")
-        .where("id", id)
+        .with('chat')
+        .where('id', id)
         .first()
       if (room == null)
-        return response.status(404).send({ message: "No record found!" })
+        return response.status(404).send({ message: 'No record found!' })
       return response.status(200).send(room)
     } catch (error) {}
   }

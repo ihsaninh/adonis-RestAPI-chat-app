@@ -1,6 +1,6 @@
-"use strict"
+'use strict'
 
-const User = use("App/Models/User")
+const User = use('App/Models/User')
 
 class UserController {
   async register({ request, auth, response }) {
@@ -17,14 +17,14 @@ class UserController {
 
     try {
       if (await auth.attempt(email, password)) {
-        let user = await User.findBy("email", email)
+        let user = await User.findBy('email', email)
         let token = await auth.generate(user)
 
         Object.assign(user, token)
         return response.json(user)
       }
     } catch (e) {
-      return response.json({ message: "You are not registered!" })
+      return response.json({ message: 'You are not registered!' })
     }
   }
 
@@ -36,7 +36,7 @@ class UserController {
       })
     } catch (e) {
       return response.status(400).send({
-        message: "bad request"
+        message: 'bad request'
       })
     }
   }
@@ -49,7 +49,7 @@ class UserController {
       })
     } catch (e) {
       return response.status(404).send({
-        message: "not found"
+        message: 'not found'
       })
     }
   }

@@ -1,13 +1,13 @@
-"use strict"
+'use strict'
 
-const Chat = use("App/Models/Chat")
+const Chat = use('App/Models/Chat')
 
 class ChatController {
   async index({ response }) {
     try {
       const chats = await Chat.query()
-        .with("room")
-        .with("user")
+        .with('room')
+        .with('user')
         .fetch()
       return response.status(200).send({
         data: chats
@@ -15,7 +15,7 @@ class ChatController {
     } catch (error) {
       console.log(error)
       return response.status(400).send({
-        message: "bad request"
+        message: 'bad request'
       })
     }
   }
