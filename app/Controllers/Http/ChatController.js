@@ -1,6 +1,6 @@
-"use strict";
+"use strict"
 
-const Chat = use("App/Models/Chat");
+const Chat = use("App/Models/Chat")
 
 class ChatController {
   async index({ response }) {
@@ -8,15 +8,15 @@ class ChatController {
       const chats = await Chat.query()
         .with("room")
         .with("user")
-        .fetch();
+        .fetch()
       return response.status(200).send({
         data: chats
-      });
+      })
     } catch (error) {
-      console.log(error);
+      console.log(error)
       return response.status(400).send({
         message: "bad request"
-      });
+      })
     }
   }
 
@@ -33,4 +33,4 @@ class ChatController {
   async destroy({ params, request, response }) {}
 }
 
-module.exports = ChatController;
+module.exports = ChatController

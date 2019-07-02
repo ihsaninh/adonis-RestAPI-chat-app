@@ -1,21 +1,21 @@
-"use strict";
+"use strict"
 
-const Room = use("App/Models/Room");
+const Room = use("App/Models/Room")
 
 class RoomController {
   async index({ response }) {
     try {
       const rooms = await Room.query()
         .with("chat")
-        .fetch();
+        .fetch()
       return response.status(200).send({
         data: rooms
-      });
+      })
     } catch (error) {
-      console.log(error);
+      console.log(error)
       return response.status(400).send({
         message: "bad request"
-      });
+      })
     }
   }
 
@@ -31,14 +31,14 @@ class RoomController {
 
   async show({ params, response }) {
     try {
-      const { id } = params;
+      const { id } = params
       const room = await Room.query()
         .with("chat")
         .where("id", id)
-        .first();
+        .first()
       if (room == null)
-        return response.status(404).send({ message: "No record found!" });
-      return response.status(200).send(room);
+        return response.status(404).send({ message: "No record found!" })
+      return response.status(200).send(room)
     } catch (error) {}
   }
 
@@ -52,4 +52,4 @@ class RoomController {
   async destroy({ params, request, response }) {}
 }
 
-module.exports = RoomController;
+module.exports = RoomController
