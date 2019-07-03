@@ -29,7 +29,23 @@ class ChatController {
     }
   }
 
-  async show({ params, request, response }) {}
+  async show({ params, request, response }) {
+    try {
+      const { id } = params
+      const chat = await Chat.query()
+        .with('room')
+        .with('user')
+        .where('id', id)
+        .first()
+      return response.status(200).send({
+        data: chat
+      })
+    } catch (e) {
+      return response.status(404).send({
+        message: 'not found'
+      })
+    }
+  }
 
   async update({ params, request, response }) {}
 
