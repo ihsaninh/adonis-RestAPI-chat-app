@@ -53,6 +53,38 @@ class UserController {
       })
     }
   }
+
+  async update({ params, request, response }) {
+    const { id } = params
+    const data = request.all()
+    const user = await User.find(id)
+    if(user==null)
+      return response.status(404).send({
+        message: 'No record found!'
+      })
+    user.merge(data)
+    await user.save()
+    return response.status(200).send(user)
+  }
+
+  async destroy({ params, response }) {
+    try {
+      const { id } = params
+      const user = await User.find(id)
+      if(user==null)
+        return response.status(404).send({
+          message : 'No record found!'
+        })
+      await user.delete()
+      return response.status(200).send({
+        message: 'Data deleted'
+      })
+    } catch (e) {
+      return response.status(400).send({
+        message: 'Something went wrong!'
+      })
+    }
+  }
 }
 
 module.exports = UserController

@@ -13,20 +13,23 @@ class ChatController {
         data: chats
       })
     } catch (error) {
-      console.log(error)
       return response.status(400).send({
         message: 'bad request'
       })
     }
   }
 
-  async create({ request, response, view }) {}
+  async create({ request, response }) {
+    try {
+      const chatData = request.only(['content'], ['room_id'])
+      const chat = await Chat.create(chatData)
+      return response.status(201).send(chat)
+    } catch (error) {
+       return response.status(400).send({'message':'Something went wrong!'})
+    }
+  }
 
-  async store({ request, response }) {}
-
-  async show({ params, request, response, view }) {}
-
-  async edit({ params, request, response, view }) {}
+  async show({ params, request, response }) {}
 
   async update({ params, request, response }) {}
 
