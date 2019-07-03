@@ -4,8 +4,8 @@ const User = use('App/Models/User')
 
 class UserController {
   async register({ request, auth, response }) {
-    let user = await User.create(request.all())
-    let token = await auth.generate(user)
+    const user = await User.create(request.all())
+    const token = await auth.generate(user)
 
     Object.assign(user, token)
 
@@ -13,12 +13,12 @@ class UserController {
   }
 
   async login({ request, response, auth }) {
-    let { email, password } = request.all()
+    const { email, password } = request.all()
 
     try {
       if (await auth.attempt(email, password)) {
-        let user = await User.findBy('email', email)
-        let token = await auth.generate(user)
+        const user = await User.findBy('email', email)
+        const token = await auth.generate(user)
 
         Object.assign(user, token)
         return response.json(user)
