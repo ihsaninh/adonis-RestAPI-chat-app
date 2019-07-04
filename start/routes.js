@@ -14,8 +14,9 @@ Route.group(() => {
 }).prefix('api/v1')
 
 Route.group(() => {
-  Route.post('/login', 'UserController.login')
-  Route.post('/register', 'UserController.register')
+  Route.post('/login', 'AuthController.login')
+  Route.post('/register', 'AuthController.register')
+  Route.get('/getuser', 'AuthController.getuser').middleware('auth')
 }).prefix('api/auth')
 
 Route.group(() => {

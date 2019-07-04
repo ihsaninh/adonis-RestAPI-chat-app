@@ -19,13 +19,18 @@ class ChatController {
     }
   }
 
-  async create({ request, response }) {
+  async create({ request, response, auth }) {
     try {
-      const chatData = request.only(['content'], ['room_id'])
-      const chat = await Chat.create(chatData)
+      const chat = new Chat()
+      chat.content = request.input('content')
+      chat.room_id = request.input('room_id')
+      chat.user_id = auth.user.id
+      await chat.save()
       return response.status(201).send(chat)
     } catch (error) {
-       return response.status(400).send({'message':'Something went wrong!'})
+       return response.status(400).send({
+         message: 'Something went wrong!'
+       })
     }
   }
 
@@ -47,9 +52,37 @@ class ChatController {
     }
   }
 
-  async update({ params, request, response }) {}
+  async update({ params, request, response }) {
+    const { id } = params
+    const data = request.all()
+    const chat = await Chat.find(id)
+    if(chat==null)
+      return response.status(404).send({
+        message: 'No record found!'
+      })
+    chat.merge(data)
+    await chat.save()
+    return response.status(200).send(chat)
+  }
 
-  async destroy({ params, request, response }) {}
+  async destroy({ params, request, response }) {
+    try {
+      const { id } = params
+      const chat = await Chat.find(id)
+      if(chat==null)
+        return response.status(404).send({
+          message : 'No record found!'
+        })
+      await chat.delete()
+      return response.status(200).send({
+        message: 'Data deleted'
+      })
+    } catch (e) {
+      return response.status(400).send({
+        message: 'Something went wrong!'
+      })
+    }
+  }
 }
 
 module.exports = ChatController

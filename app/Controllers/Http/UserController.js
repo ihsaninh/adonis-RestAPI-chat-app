@@ -3,31 +3,7 @@
 const User = use('App/Models/User')
 
 class UserController {
-  async register({ request, auth, response }) {
-    const user = await User.create(request.all())
-    const token = await auth.generate(user)
-
-    Object.assign(user, token)
-
-    return response.json(user)
-  }
-
-  async login({ request, response, auth }) {
-    const { email, password } = request.all()
-
-    try {
-      if (await auth.attempt(email, password)) {
-        const user = await User.findBy('email', email)
-        const token = await auth.generate(user)
-
-        Object.assign(user, token)
-        return response.json(user)
-      }
-    } catch (e) {
-      return response.json({ message: 'You are not registered!' })
-    }
-  }
-
+  
   async index({ response }) {
     try {
       const users = await User.all()
